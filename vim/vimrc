@@ -1,0 +1,171 @@
+"---------------------------
+">>> Plugin Settings
+"---------------------------
+" Path to neobundle.vim
+if has('vim_starting')
+  filetype plugin indent off
+  set runtimepath+=~/dotfiles/vim/plugins/neobundle.vim
+  call neobundle#rc(expand('~/dotfiles/vim/plugins'))
+endif
+
+" Plugin list for neobundle.vim
+NeoBundle 'Shougo/neobundle.vim'
+NeoBundle 'Shougo/vimproc'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/unite-ssh'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'thinca/vim-fontzoom'
+NeoBundle 'ujihisa/vimshell-ssh'
+NeoBundle 'vim-scripts/taglist.vim'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'mattn/zencoding-vim'
+NeoBundle 'mattn/vdbi-vim'
+NeoBundle 'mattn/mkdpreview-vim'
+NeoBundle 'mattn/learn-vimscript'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'Sixeight/unite-grep'
+NeoBundle 'vim-scripts/actionscript.vim'
+NeoBundle 'basyura/TweetVim'
+NeoBundle 'basyura/twibill.vim'
+NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'kannokanno/unite-todo'
+NeoBundle 'project.tar.gz'
+NeoBundle 'jsx/jsx.vim'
+NeoBundle 'tomasr/molokai'
+ 
+filetype plugin indent on
+autocmd BufNewFile,BufRead *.asc set filetype=javascript
+
+" NeoCompleCache settings
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_underbar_completion = 1
+
+" Unite-todo
+let g:unite_todo_note_suffix = "todo"
+
+"---------------------------
+">>> General Settings 
+"---------------------------
+" Global
+set nocompatible
+set noswapfile
+set ignorecase
+set tags=tags
+set foldmethod=marker
+set iminsert=0
+set imsearch=0
+set wildmenu
+set wildmode=full
+set backspace=indent,eol,start
+set mouse=a
+syntax on
+
+" File format
+set fileencoding=utf8
+set fileformat=unix
+set encoding=utf8
+set enc=utf-8
+
+" Visual
+set novisualbell
+set noerrorbells
+set t_Co=256
+set autoindent
+set number
+set nowrap
+set ts=4 sw=4 sts=0
+set splitbelow
+set splitright
+set hlsearch
+set nocursorline
+set laststatus=2
+set list
+set listchars=tab:->
+colorscheme molokai
+highlight LineNr ctermfg=121
+highlight Pmenu ctermbg=4 ctermfg=white
+
+" TweetVim highlight for terminal
+augroup tweetvimhighlight
+	autocmd!
+	autocmd FileType tweetvim call s:tweetvim_highlight()
+augroup END
+function! s:tweetvim_highlight()
+	highlight link tweetvim_title Preproc
+	highlight link tweetvim_status_id Identifier
+	highlight link tweetvim_screen_name Identifier
+	highlight link tweetvim_at_screen_name Identifier
+	highlight link tweetvim_link Comment
+	highlight link tweetvim_hash_tag Comment
+	highlight link tweetvim_separator Constant
+	highlight link tweetvim_separator_title Constant
+	highlight link tweetvim_new_separator Constant
+	highlight link tweetvim_star Type
+	highlight link tweetvim_reload Type
+	highlight link tweetvim_rt_count Type
+	highlight link tweetvim_rt_over  Type
+	highlight link tweetvim_appendix Statement
+endfunction
+
+"---------------------------
+">>> KeyMapping Settings
+"---------------------------
+" Interchange ; and :
+nnoremap ; :
+
+" Move home and end in line
+nnoremap 9 <HOME>
+nnoremap 0 <END>
+
+" Delete search highlight
+nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
+nnoremap <C-c><C-c> :nohlsearch<CR><Esc>
+
+" Comment out
+nmap ;c gcc
+
+" Move to next/previous tabs
+nnoremap <C-t>  gT
+nnoremap <C-g>  gt
+
+" Move to another window in same tab
+"nnoremap <C-w>  <C-w><C-w>
+
+" Awake VimFiler
+nnoremap ff :VimFiler<CR>
+
+" Awake Vimshell
+nnoremap <C-f><C-f> :VimShell -split=v<CR>
+
+" Unite
+nnoremap ee :Unite 
+nnoremap ef :Unite file<CR>
+nnoremap ew :Unite file_mru<CR>
+nnoremap eg :Unite buffer<CR>
+nnoremap et :UniteTodoAddSimple<CR>
+au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+
+" Unite grep
+nnoremap gr :Unite grep:
+
+" Move on insert mode
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+ 
+" Reload .vimrc
+nnoremap ;r :source ~/.vimrc<CR>
+
+" Quit vim
+nnoremap <C-X> :qa<CR>

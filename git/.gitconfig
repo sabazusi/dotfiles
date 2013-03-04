@@ -1,0 +1,14 @@
+[user]
+	name = hoge
+	email = h@ge
+[color]
+	status = auto
+	diff = auto
+	branch = auto
+	interactive = auto
+	grep = auto
+	ui = auto
+[include]
+	path = .gitconfig.local
+[core]
+	editor = vim

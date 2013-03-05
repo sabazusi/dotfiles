@@ -1,0 +1,8 @@
+alias gst="git status" 
+alias gbr="git branch"
+alias gco="git checkout"
+alias gci="git commit -a"
+alias gpo="git push origin"
+alias gpom="git push origin master"
+alias gft="git fetch"
+alias gdf="git diff master"

@@ -5,16 +5,22 @@
 if has('vim_starting')
   filetype plugin indent off
   set runtimepath+=~/dotfiles/vim/plugins/neobundle.vim
-  call neobundle#rc(expand('~/dotfiles/vim/plugins'))
+  call neobundle#begin(expand('~/dotfiles/vim/plugins'))
+  NeoBundleFetch 'Shougo/neobundle.vim'
+  call neobundle#end()
 endif
 
 " Plugin list for neobundle.vim
+NeoBundle 'rbtnn/mario.vim'
+NeoBundle 'morhetz/gruvbox'
+NeoBundle 'jdonaldson/vaxe'
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc'
-NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-ssh'
 NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'thinca/vim-quickrun'
@@ -24,7 +30,6 @@ NeoBundle 'vim-scripts/taglist.vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'mattn/webapi-vim'
-NeoBundle 'mattn/zencoding-vim'
 NeoBundle 'mattn/vdbi-vim'
 NeoBundle 'mattn/mkdpreview-vim'
 NeoBundle 'mattn/learn-vimscript'
@@ -32,20 +37,28 @@ NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'Sixeight/unite-grep'
 NeoBundle 'vim-scripts/actionscript.vim'
+NeoBundle 'vim-scripts/phd'
 NeoBundle 'basyura/TweetVim'
 NeoBundle 'basyura/twibill.vim'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'kannokanno/unite-todo'
 NeoBundle 'project.tar.gz'
-NeoBundle 'jsx/jsx.vim'
 NeoBundle 'tomasr/molokai'
  
 filetype plugin indent on
 autocmd BufNewFile,BufRead *.asc set filetype=javascript
 
+set expandtab
+set tabstop=2
+set shiftwidth=2
+
 " NeoCompleCache settings
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_underbar_completion = 1
+" let g:neocomplcache_enable_at_startup = 1
+
+" let g:neocomplcache_enable_underbar_completion = 1
+
+"NeoComplete
+let g:neocomplete#enable_at_startup = 1
 
 " Unite-todo
 let g:unite_todo_note_suffix = "todo"
@@ -88,7 +101,7 @@ set nocursorline
 set laststatus=2
 set list
 set listchars=tab:->
-colorscheme molokai
+colorscheme phd
 highlight LineNr ctermfg=121
 highlight Pmenu ctermbg=4 ctermfg=white
 
@@ -169,3 +182,43 @@ nnoremap ;r :source ~/.vimrc<CR>
 
 " Quit vim
 nnoremap <C-X> :qa<CR>
+
+" MacVim
+if has('gui_macvim')
+	set transparency=15
+endif
+
+" Vaxe
+"set autogroup
+augroup MyAutoCmd
+  autocmd!
+augroup END
+
+" vaxeの動作にはautowriteを有効にする必要がある
+autocmd MyAutoCmd FileType haxe
+      \ setl autowrite
+autocmd MyAutoCmd FileType hxml
+      \ setl autowrite
+autocmd MyAutoCmd FileType nmml.xml
+      \ setl autowrite
+
+let g:vaxe_haxe_version = 3
+
+function! s:init_vaxe_keymap()
+  " .hxmlファイルを開いてくれるやつ
+  nnoremap <buffer> ,vo :<C-u>call vaxe#OpenHxml()<CR>
+  " タグファイル作ってくれるやつ(別途、.ctagsの定義をしませう)
+  nnoremap <buffer> ,vc :<C-u>call vaxe#Ctags()<CR>
+  " 自動インポートな
+  nnoremap <buffer> ,vi :<C-u>call vaxe#ImportClass()<CR>
+endfunction
+
+autocmd MyAutoCmd FileType haxe call s:init_vaxe_keymap()
+autocmd MyAutoCmd FileType hxml call s:init_vaxe_keymap()
+autocmd MyAutoCmd FileType nmml.xml call s:init_vaxe_keymap()
+
+" 以下はNeocomplete用
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.haxe = '\v([\]''"\)]|\w|(^\s*))(\.|\()'

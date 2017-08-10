@@ -1,4 +1,3 @@
-## appearance
 # vsc info
 autoload -Uz vcs_info
 precmd () { vcs_info }
@@ -38,3 +37,6 @@ function peco-history-selection() {
 
 zle -N peco-history-selection
 bindkey '^R' peco-history-selection
+
+## completion
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'

@@ -27,6 +27,22 @@ if ! zplug check --verbose; then
 fi
 zplug load --verbose > /dev/null
 
+## colordiff
+# requirement: https://www.colordiff.org/
+#              brew install colordiff
+if [[ -x `which colordiff` ]]; then
+  alias diff='colordiff -u'
+else
+  alias diff='diff -u'
+fi
+
+## history
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=100000
+setopt share_history
+setopt hist_ignore_dups
+setopt hist_ignore_all_dups
 
 ## peco
 function peco-history-selection() {
@@ -40,3 +56,8 @@ bindkey '^R' peco-history-selection
 
 ## completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+## path
+
+## start with tmux
+tmux

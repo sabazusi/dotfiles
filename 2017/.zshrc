@@ -1,3 +1,6 @@
+## copy your home dir
+## ln -s .zshrc ~/.zshrc
+
 # vsc info
 autoload -Uz vcs_info
 precmd () { vcs_info }

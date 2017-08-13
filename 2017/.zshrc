@@ -36,15 +36,8 @@ else
   alias diff='diff -u'
 fi
 
-## history
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=100000
-setopt share_history
-setopt hist_ignore_dups
-setopt hist_ignore_all_dups
-
 ## peco
+# requirement: https://github.com/peco/peco
 function peco-history-selection() {
     BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
     CURSOR=$#BUFFER
@@ -54,10 +47,20 @@ function peco-history-selection() {
 zle -N peco-history-selection
 bindkey '^R' peco-history-selection
 
+## history
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=100000
+setopt share_history
+setopt hist_ignore_dups
+setopt hist_ignore_all_dups
+
 ## completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' completer _complete
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
+autoload -Uz compinit
+compinit
 
-## path
-
-## start with tmux
-tmux
+## write own env settings in ".zshrc_local"
+[ -f $HOME/.zshrc_local ] && . $HOME/.zshrc_local
